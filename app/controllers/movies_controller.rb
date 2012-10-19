@@ -7,19 +7,13 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
-
-    @movies =  @movies.sort_by do |movie|
-      if params[:type] == "movies"
-        movie.title 
-      elsif params[:type] == "release_date"
-        movie.release_date
-      else
-      end
-    end 
-
-    @movies.each { |m| puts m.title }
-    return @movies
+    if params[:type] == "movies"
+      return @movies = Movie.find(:all, :order => "title ASC")
+    elsif params[:type] == "release_date"
+      return @movies = Movie.find(:all, :order => "release_date ASC")
+    else
+      return @movies = Movie.all
+    end
   end
 
   def new
