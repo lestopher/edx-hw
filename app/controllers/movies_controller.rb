@@ -9,8 +9,9 @@ class MoviesController < ApplicationController
   def index
     @all_ratings = Movie.new.all_ratings
 
-    type = params[:type].nil? ? nil : "#{params[:type]} ASC"
+    type = params[:sort].nil? ? nil : "#{params[:sort]} ASC"
     @checked_ratings = params[:ratings].nil? ? nil : params[:ratings].keys
+    @checked_ratings = params[:checked_ratings] if @checked_ratings.nil?
 
     if @checked_ratings.nil? && session[:checked_ratings] != nil
       @checked_ratings = session[:checked_ratings]
