@@ -16,9 +16,10 @@ class MoviesController < ApplicationController
       @checked_ratings = session[:checked_ratings]
     end
 
-    @movies = Movie.where(:rating => @checked_ratings).order(type)
+    @movies = Movie.where(:rating => @checked_ratings.nil? ? @all_ratings : @checked_ratings).order(type)
     @class_css = type
     session[:checked_ratings] = @checked_ratings unless session[:checked_ratings].nil?
+
   end
 
   def new
