@@ -12,11 +12,13 @@ class MoviesController < ApplicationController
     type = params[:type].nil? ? nil : "#{params[:type]} ASC"
     @checked_ratings = params[:ratings].nil? ? nil : params[:ratings].keys
 
-    @movies = params[:ratings].nil? ? Movie.find(:all, :order => type)
-                                    : Movie.where(:rating => @checked_ratings)
-                                           .order(type)
+    if @checked_ratings.nil? && session[:checked_ratings] != nil
+      @checked_ratings = session[:checked_ratings]
+    end
+
+    @movies = Movie.where(:rating => @checked_ratings).order(type)
     @class_css = type
-    debugger
+    session[:checked_ratings] = @checked_ratings unless session[:checked_ratings].nil?
   end
 
   def new
