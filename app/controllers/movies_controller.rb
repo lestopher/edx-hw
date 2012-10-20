@@ -7,16 +7,16 @@ class MoviesController < ApplicationController
   end
 
   def index
-    if params[:type] == "movies"
-      @movies = Movie.find(:all, :order => "title ASC")
-      @class_css = "movies"
-    elsif params[:type] == "release_date"
-      @movies = Movie.find(:all, :order => "release_date ASC")
-      @class_css = "release_date"
-    else
-      @movies = Movie.all
-      @class_css = nil
-    end
+    @all_ratings = Movie.new.all_ratings
+
+    type = params[:type].nil? ? nil : "#{params[:type]} ASC"
+    @checked_ratings = params[:ratings].nil? ? nil : params[:ratings].keys
+
+    @movies = params[:ratings].nil? ? Movie.find(:all, :order => type)
+                                    : Movie.where(:rating => @checked_ratings)
+                                           .order(type)
+    @class_css = type
+    debugger
   end
 
   def new
