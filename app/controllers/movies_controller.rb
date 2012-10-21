@@ -7,8 +7,10 @@ class MoviesController < ApplicationController
   end
 
   def index
-    if (params[:sort].nil? || params[:ratings].nil?) && session[:sort] != nil && session[:checked_ratings] != nil
-      redirect_to movies_path :sort => session[:sort], :ratings => session[:checked_ratings]
+    if (params[:sort].nil? && session[:sort] != nil) || (params[:ratings].nil? && session[:checked_ratings] != nil)
+      sort = params[:sort] != nil ? params[:sort] : session[:sort]
+      ratings = params[:ratings] != nil ? params[:ratings] : session[:checked_ratings]
+      redirect_to movies_path :sort => sort, :ratings => ratings
     end
     @all_ratings = Movie.new.all_ratings
 
