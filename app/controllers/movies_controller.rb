@@ -26,7 +26,7 @@ class MoviesController < ApplicationController
 
 
     @movies = Movie.where(:rating => @checked_ratings.nil? ? @all_ratings : @checked_ratings).order(sort)
-    @class_css = sort.split(' ')[0]
+    @class_css = sort != nil ? sort.split(' ')[0] : nil
     session[:checked_ratings] = @checked_ratings
     session[:sort] = sort.split(' ')[0] if sort != nil
 
